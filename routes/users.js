@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var {dbUrl} = require('../dbConfig');
 const mongoose = require('mongoose');
-const {UserDetails} = require('../Schema');
+const {UserDetails} = require('../models/user');
 const {hashing,hashCompare,createJWT} = require('../auth');
 
 mongoose.connect(dbUrl);
@@ -10,10 +10,10 @@ mongoose.connect(dbUrl);
 router.get('/:id',async(req,res)=>{
   
   try{
-    const details = await UserDetails.find({email:req.body.email})
+    const details = await UserDetails.findOne({_id:req.params.id})
     res.send({
       statusCode:200,
-      users:details
+      user:details
     })
   }
   catch(error)
@@ -114,6 +114,7 @@ router.put('/:id',async(req,res)=>{
     const details = await UserDetails.updateOne({_id:req.params.id},req.body)
     res.send({
       statusCode:200,
+      details,
       message:"Changes Saved"
     })
   }

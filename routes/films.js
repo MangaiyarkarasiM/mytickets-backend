@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var {dbUrl} = require('../dbConfig');
 const mongoose = require('mongoose');
-const {FilmDetails} = require('../Schema');
+const {FilmDetails} = require('../models/film');
 
 mongoose.connect(dbUrl);
 
