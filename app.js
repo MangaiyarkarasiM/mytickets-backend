@@ -10,6 +10,8 @@ var usersRouter = require('./routes/users');
 var theaterRouter = require('./routes/theaters');
 var filmRouter = require('./routes/films');
 var showRouter = require('./routes/shows');
+var bookingRouter = require('./routes/bookings');
+var seatingRouter = require('./routes/seatings');
 
 var app = express();
 
@@ -29,6 +31,8 @@ app.use('/users', usersRouter);
 app.use('/theaters', theaterRouter);
 app.use('/movies', filmRouter);
 app.use('/shows', showRouter);
+app.use('/bookings', bookingRouter);
+app.use('/seatings', seatingRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

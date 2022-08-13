@@ -1,33 +1,36 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 
-var showSchema = new mongoose.Schema(
+var bookingSchema = new mongoose.Schema(
     {
+        user:{
+            type:mongoose.Types.ObjectId,
+            ref: 'users',
+            required:true
+        },
         film:{
-            type:Schema.Types.ObjectId,
+            type:mongoose.Types.ObjectId,
             ref: 'films',
             required:true
         },
         theater:{
-            type:Schema.Types.ObjectId,
+            type:mongoose.Types.ObjectId,
             ref: 'theaters',
             required:true
         },
-        date:{
+        bookedDate:{
             type:Date,
             required:true
         },
-        startTime:{
-            type:String,
+        seatsBooked:{
+            type:Array,
             required:true
         },
-        endTime:{
-            type:String,
+        amountPaid:{
+            type:Number,
             required:true
         },
-        changedBy:{
-            type:Schema.Types.ObjectId,
-            ref: 'users',
+        status:{
+            type:String, 
             required:true
         },
     },
@@ -42,6 +45,6 @@ var showSchema = new mongoose.Schema(
     }
 )
 
-const ShowDetails = mongoose.model('shows',showSchema);
+const BookingDetails = mongoose.model('bookings',bookingSchema);
 
-module.exports={ShowDetails};
+module.exports={BookingDetails};

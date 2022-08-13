@@ -1,9 +1,27 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 var filmSchema = new mongoose.Schema(
     {
         name:{
+            type:String,
+            unique:true,
+            required:true
+        },
+        about:{
             type:String, 
+            required:true
+        },
+        posterUrl:{
+            type:String, 
+            required:true
+        },
+        bannerUrl:{
+            type:String, 
+            required:true
+        },
+        languages:{
+            type:Array,
             required:true
         },
         genre:{
@@ -26,14 +44,22 @@ var filmSchema = new mongoose.Schema(
             type:Number,
             required:true
         },
-        addedBy:{
-            type:String,
+        ticketPrice:{
+            type:Number,
             required:true
         },
-        addedAt:{
+        releaseDate:{
             type:Date,
-            default:Date.now
+            required:true
         },
+        changedBy:{
+            type:Schema.Types.ObjectId,
+            ref:'users',
+            required:true
+        }
+    },
+    {
+        timestamps:true
     },
     {
         writeConcern: {

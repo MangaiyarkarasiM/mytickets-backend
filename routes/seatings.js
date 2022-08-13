@@ -2,18 +2,18 @@ var express = require('express');
 var router = express.Router();
 var {dbUrl} = require('../dbConfig');
 const mongoose = require('mongoose');
-const {FilmDetails} = require('../models/film');
+const {SeatingDetails} = require('../models/seating');
 
 mongoose.connect(dbUrl);
 
-//To get all the movies
+//To get all the seatings
 router.get('/',async(req,res)=>{
   
     try{
-      const details = await FilmDetails.find().populate('changedBy');
+      const details = await SeatingDetails.find().populate('show');
       res.send({
         statusCode:200,
-        movies:details
+        seatings:details
       })
     }
     catch(error)
@@ -27,15 +27,15 @@ router.get('/',async(req,res)=>{
     }
   })
 
-  //To get a movie with movie Id
+  //To get the future seatings for a show with its Id
   router.get('/:id',async(req,res)=>{
-  
+
     try{
-      const details = await FilmDetails.findOne({_id:req.params.id}).populate('changedBy');
-      res.send({
-        statusCode:200,
-        movie:details
-      })
+      const details = await SeatingDetails.find({show:req.params.id}).populate('show');
+         res.send({
+            statusCode:200,
+            seatings:details,
+        })
     }
     catch(error)
     {
@@ -48,14 +48,14 @@ router.get('/',async(req,res)=>{
     }
   })
 
-  //To create a new movie
-  router.post('/create-film',async(req,res)=>{
+  //To create a new seating
+  router.post('/create-seating',async(req,res)=>{
     try {
 
-      const details = await FilmDetails.create(req.body)
+      const details = await SeatingDetails.create(req.body)
       res.send({
         statusCode:200,
-        message:"Movie Created"
+        message:"seating Created"
       })
     } catch (error) {
       console.log(error)
@@ -68,13 +68,13 @@ router.get('/',async(req,res)=>{
 
 })
 
-////To update a movie with Id
+//To update the seating with id
 router.put('/:id',async(req,res)=>{
   try{
-    const details = await FilmDetails.updateOne({_id:req.params.id},req.body)
+    const details = await SeatingDetails.updateOne({_id:req.params.id},req.body)
     res.send({
       statusCode:200,
-      message:"Changes Saved for the movie"
+      message:"Changes Saved for the seating"
     })
   }
   catch(error)
@@ -88,13 +88,13 @@ router.put('/:id',async(req,res)=>{
   }
 })
 
-////To delete a movie with Id
+//To delete the seating with id
 router.delete('/:id', async(req,res)=>{
   try {
-    await FilmDetails.deleteOne({_id:req.params.id})
+    await SeatingDetails.deleteOne({_id:req.params.id})
     res.send({
       statusCode:200,
-      message:"Movie has been Deleted"
+      message:"seating has been Deleted"
     })
   } catch (error) {
     console.log(error)
