@@ -29,6 +29,27 @@ router.get("/", async (req, res) => {
   }
 });
 
+//To get the show with its Id
+router.get("/show/:id", async (req, res) => {
+  try {
+    const details = await ShowDetails.findOne({ _id: req.params.id })
+      .populate("film")
+      .populate("theater")
+      .populate("changedBy");
+    res.send({
+      statusCode: 200,
+      show: details,
+    });
+  } catch (error) {
+    console.log(error);
+    res.send({
+      statusCode: 500,
+      message: "Internal Server Error",
+      error: error,
+    });
+  }
+});
+
 //To get the future shows for a movie with its Id
 router.get("/:id", async (req, res) => {
   let currentDate = new Date(Date.now()).toISOString();
@@ -66,6 +87,24 @@ router.get("/:id", async (req, res) => {
         message: "No shows available",
       });
     }
+  } catch (error) {
+    console.log(error);
+    res.send({
+      statusCode: 500,
+      message: "Internal Server Error",
+      error: error,
+    });
+  }
+});
+
+//To create a new seating
+router.post("/create-seating", async (req, res) => {
+  try {
+    const details = await SeatingDetails.create(req.body);
+    res.send({
+      statusCode: 200,
+      message: "seating Created",
+    });
   } catch (error) {
     console.log(error);
     res.send({
@@ -114,7 +153,7 @@ router.post("/create-show", async (req, res) => {
       res.send({
         statusCode: 200,
         message: "Show Created",
-        details
+        details,
       });
     }
   } catch (error) {

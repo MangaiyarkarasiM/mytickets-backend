@@ -10,7 +10,7 @@ mongoose.connect(dbUrl);
 router.get('/',async(req,res)=>{
   
     try{
-      const details = await BookingDetails.find().populate('user').populate('film').populate('theater');
+      const details = await BookingDetails.find().populate('user').populate('film').populate('theater').populate('show');
       res.send({
         statusCode:200,
         bookings:details
@@ -31,7 +31,7 @@ router.get('/',async(req,res)=>{
 router.get('/user/:id',async(req,res)=>{
   
   try{
-    const details = await BookingDetails.find({user:req.params.id}).populate('user').populate('film').populate('theater');
+    const details = await BookingDetails.find({user:req.params.id}).populate('user').populate('film').populate('theater').populate('show');
     if(details.length>0)
     {
       res.send({
@@ -61,7 +61,7 @@ router.get('/user/:id',async(req,res)=>{
 router.get('/film/:id',async(req,res)=>{
   
   try{
-    const details = await BookingDetails.find({film:req.params.id}).populate('user').populate('film').populate('theater');
+    const details = await BookingDetails.find({film:req.params.id}).populate('user').populate('film').populate('theater').populate('show');
     if(details.length>0)
     {
       res.send({
@@ -91,7 +91,7 @@ router.get('/film/:id',async(req,res)=>{
 router.get('/theater/:id',async(req,res)=>{
   
   try{
-    const details = await BookingDetails.find({theater:req.params.id}).populate('user').populate('film').populate('theater');
+    const details = await BookingDetails.find({theater:req.params.id}).populate('user').populate('film').populate('theater').populate('show');
     if(details.length>0)
     {
       res.send({
@@ -122,7 +122,8 @@ router.post('/create-booking',async(req,res)=>{
     const details = await BookingDetails.create(req.body)
     res.send({
       statusCode:200,
-      message:"Booking Created"
+      message:"Booking Created",
+      booking:details
     })
   } catch (error) {
     console.log(error)

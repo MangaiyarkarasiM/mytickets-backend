@@ -27,11 +27,11 @@ router.get('/',async(req,res)=>{
     }
   })
 
-  //To get the future seatings for a show with its Id
+  //To get the seatings for a show with its Id
   router.get('/:id',async(req,res)=>{
 
     try{
-      const details = await SeatingDetails.find({show:req.params.id}).populate('show');
+      const details = await SeatingDetails.findOne({show:req.params.id}).populate('show');
          res.send({
             statusCode:200,
             seatings:details,

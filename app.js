@@ -12,6 +12,7 @@ var filmRouter = require('./routes/films');
 var showRouter = require('./routes/shows');
 var bookingRouter = require('./routes/bookings');
 var seatingRouter = require('./routes/seatings');
+var paymentRouter = require('./routes/razorpay');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/movies', filmRouter);
 app.use('/shows', showRouter);
 app.use('/bookings', bookingRouter);
 app.use('/seatings', seatingRouter);
+app.use('/razorpay', paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

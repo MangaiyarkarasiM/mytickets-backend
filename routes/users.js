@@ -26,6 +26,7 @@ router.get('/:id',async(req,res)=>{
       })
   }
 })
+
 router.post('/register',async(req,res)=>{
     try {
       const details = await UserDetails.findOne({email:req.body.email})

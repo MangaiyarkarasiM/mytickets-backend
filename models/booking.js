@@ -17,6 +17,11 @@ var bookingSchema = new mongoose.Schema(
             ref: 'theaters',
             required:true
         },
+        show:{
+            type:mongoose.Types.ObjectId,
+            ref: 'shows',
+            required:true
+        },
         bookedDate:{
             type:Date,
             required:true
@@ -30,6 +35,14 @@ var bookingSchema = new mongoose.Schema(
             required:true
         },
         status:{
+            type:String, 
+            required:true
+        },
+        razorPayOrderId:{
+            type:String, 
+            required:true
+        },
+        razorPayPaymentId:{
             type:String, 
             required:true
         },
