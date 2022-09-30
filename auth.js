@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const secret = "Pkn0ijb8ugv7gfv76vcc112s";
+const secret = process.env.SECRET;
 const { UserDetails } = require("./models/user");
 
 const createJWT = async (payload) => {
