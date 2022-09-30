@@ -3,13 +3,13 @@ var router = express.Router();
 var { dbUrl } = require("../dbConfig");
 const mongoose = require("mongoose");
 const { ShowDetails } = require("../models/show");
-// const { SeatingDetails } = require("../models/seating");
 var moment = require("moment");
+const { authVerify } = require("../auth");
 
 mongoose.connect(dbUrl);
 
 //To get all the shows
-router.get("/", async (req, res) => {
+router.get("/", authVerify, async (req, res) => {
   try {
     const details = await ShowDetails.find()
       .populate("film")
@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
 });
 
 //To get the show with its Id
-router.get("/show/:id", async (req, res) => {
+router.get("/show/:id", authVerify, async (req, res) => {
   try {
     const details = await ShowDetails.findOne({ _id: req.params.id })
       .populate("film")
@@ -51,7 +51,7 @@ router.get("/show/:id", async (req, res) => {
 });
 
 //To get the future shows for a movie with its Id
-router.get("/:id", async (req, res) => {
+router.get("/:id", authVerify, async (req, res) => {
   let currentDate = new Date(Date.now()).toISOString();
   let year = +currentDate.substring(0, 4);
   let month = +currentDate.substring(5, 7);
@@ -98,7 +98,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //To create a new seating
-router.post("/create-seating", async (req, res) => {
+router.post("/create-seating", authVerify, async (req, res) => {
   try {
     const details = await SeatingDetails.create(req.body);
     res.send({
@@ -116,7 +116,7 @@ router.post("/create-seating", async (req, res) => {
 });
 
 //To create a new show
-router.post("/create-show", async (req, res) => {
+router.post("/create-show", authVerify, async (req, res) => {
   try {
     let date = `${req.body.date}T00:00:00.000+00:00`;
     let showExists = false;
@@ -167,7 +167,7 @@ router.post("/create-show", async (req, res) => {
 });
 
 //To update the show with id
-router.put("/:id", async (req, res) => {
+router.put("/:id", authVerify, async (req, res) => {
   try {
     const details = await ShowDetails.updateOne(
       { _id: req.params.id },
@@ -188,7 +188,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //To delete the show with id
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authVerify, async (req, res) => {
   try {
     await ShowDetails.deleteOne({ _id: req.params.id });
     res.send({

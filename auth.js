@@ -1,42 +1,46 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const secret = "Pkn0ijb8ugv7gfv76vcc112s";
+const { UserDetails } = require("./models/user");
 
-const createJWT = async(payload)=>{
-    var token = jwt.sign(payload,secret,{
-        expiresIn:'1m'
+const createJWT = async (payload) => {
+  var token = jwt.sign(payload, secret);
+  return token;
+};
+
+const authVerify = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    if (!token) throw new Error("Token can't be null");
+    let payload = jwt.verify(token, secret);
+    const user = await UserDetails.findOne({ email: payload.email });
+    if (!user) throw new Error();
+    next();
+  } catch (error) {
+    console.log(error);
+    res.send({
+      statusCode: 401,
+      message: "Please authenticate",
     });
-    return token;
-}
+  }
+};
 
+const hashing = async (value) => {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(value, salt);
+    return hash;
+  } catch (error) {
+    return error;
+  }
+};
 
-const authVerify = async(token)=>{
-    try{
-        let payload = jwt.verify(token,secret);
-        return true
-    }
-    catch(error)
-    {
-        return false
-    }
-}
-const hashing = async(value)=>{
-    try {
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(value,salt);
-        return hash
-    } catch (error) {
-            return error
-    }
-}
+const hashCompare = async (value, hash) => {
+  try {
+    return await bcrypt.compare(value, hash);
+  } catch (error) {
+    return error;
+  }
+};
 
-const hashCompare = async(value,hash)=>{
-    try {
-        return await bcrypt.compare(value,hash);
-    } catch (error) {
-        return error
-    }
-}
-
-
-module.exports={hashing,hashCompare,createJWT,authVerify}
+module.exports = { hashing, hashCompare, createJWT, authVerify };
