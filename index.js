@@ -92,14 +92,14 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-var indexRouter = require('../routes/index');
-var usersRouter = require('../routes/users');
-var theaterRouter = require('../routes/theaters');
-var filmRouter = require('../routes/films');
-var showRouter = require('../routes/shows');
-var bookingRouter = require('../routes/bookings');
-var seatingRouter = require('../routes/seatings');
-var paymentRouter = require('../routes/razorpay');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var theaterRouter = require('./routes/theaters');
+var filmRouter = require('./routes/films');
+var showRouter = require('./routes/shows');
+var bookingRouter = require('./routes/bookings');
+var seatingRouter = require('./routes/seatings');
+var paymentRouter = require('./routes/razorpay');
 
 
 // view engine setup
