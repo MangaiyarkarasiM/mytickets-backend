@@ -4,7 +4,10 @@ const {dbUrl,mongodb,MongoClient} = require('../dbConfig');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send({
+    statusCode: 200,
+    message: 'Success'
+  });;
 });
 
 module.exports = router;
